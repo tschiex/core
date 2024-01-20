@@ -5,6 +5,8 @@ import functools
 import logging
 from typing import TYPE_CHECKING, Any, Self
 
+from zhaquirks.quirk_ids import TUYA_POOL_SENSOR
+
 from homeassistant.components.number import NumberEntity, NumberMode
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import EntityCategory, Platform, UnitOfMass, UnitOfTemperature
@@ -230,6 +232,8 @@ UNITS = {
     187: "Newton-seconds",
     188: "Newtons-per-meter",
     189: "Watts-per-meter-per-degree-Kelvin",
+    190: "Microsiemens-per-centimeter",
+    191: "Milligrams-per-liter",
 }
 
 ICONS = {
@@ -250,6 +254,10 @@ ICONS = {
     14: "mdi:timer",
     15: "mdi:palette",
     16: "mdi:brightness-percent",
+    17: "mdi:water-plus",
+    18: "mdi:ph",
+    19: "mdi:resistor",
+    20: "mdi:water-percent",
 }
 
 
@@ -966,3 +974,139 @@ class ThermostatLocalTempCalibration(ZHANumberConfigurationEntity):
     _attr_mode: NumberMode = NumberMode.SLIDER
     _attr_native_unit_of_measurement: str = UnitOfTemperature.CELSIUS
     _attr_icon: str = ICONS[0]
+
+
+@CONFIG_DIAGNOSTIC_MATCH(
+    cluster_handler_names="tuya_manufacturer", quirk_ids=TUYA_POOL_SENSOR
+)
+# pylint: disable-next=hass-invalid-inheritance # needs fixing
+class PHMaxValue(ZHANumberConfigurationEntity):
+    """Representation of a ZHA pH Maximum Value configuration entity."""
+
+    _unique_id_suffix = "ph_max_value"
+    _attr_entity_category = EntityCategory.CONFIG
+    _attr_icon: str = ICONS[18]
+    _attr_native_min_value: float = 0
+    _attr_native_max_value: float = 20
+    _attr_native_unit_of_measurement: str | None = UNITS[95]
+    _attribute_name = "ph_max_value"
+    _attr_translation_key: str = "ph_max_value"
+
+
+@CONFIG_DIAGNOSTIC_MATCH(
+    cluster_handler_names="tuya_manufacturer", quirk_ids=TUYA_POOL_SENSOR
+)
+# pylint: disable-next=hass-invalid-inheritance # needs fixing
+class PHMinValue(ZHANumberConfigurationEntity):
+    """Representation of a ZHA pH Minimum Value configuration entity."""
+
+    _unique_id_suffix = "ph_min_value"
+    _attr_entity_category = EntityCategory.CONFIG
+    _attr_icon: str = ICONS[18]
+    _attr_native_min_value: float = 0
+    _attr_native_max_value: float = 20
+    _attr_native_unit_of_measurement: str | None = UNITS[95]
+    _attribute_name = "ph_min_value"
+    _attr_translation_key: str = "ph_min_value"
+
+
+@CONFIG_DIAGNOSTIC_MATCH(
+    cluster_handler_names="tuya_manufacturer", quirk_ids=TUYA_POOL_SENSOR
+)
+# pylint: disable-next=hass-invalid-inheritance # needs fixing
+class ECMaxValue(ZHANumberConfigurationEntity):
+    """Representation of a ZHA Electrical Conductivity Maximum Value configuration entity."""
+
+    _unique_id_suffix = "ec_max_value"
+    _attr_entity_category = EntityCategory.CONFIG
+    _attr_icon: str = ICONS[19]
+    _attr_native_min_value: float = 0
+    _attr_native_max_value: float = 100
+    _attr_native_unit_of_measurement: str | None = UNITS[190]
+    _attribute_name = "ec_max_value"
+    _attr_translation_key: str = "ec_max_value"
+
+
+@CONFIG_DIAGNOSTIC_MATCH(
+    cluster_handler_names="tuya_manufacturer", quirk_ids=TUYA_POOL_SENSOR
+)
+# pylint: disable-next=hass-invalid-inheritance # needs fixing
+class ECMinValue(ZHANumberConfigurationEntity):
+    """Representation of a ZHA Electrical Conductivity Minimum Value configuration entity."""
+
+    _unique_id_suffix = "ec_min_value"
+    _attr_entity_category = EntityCategory.CONFIG
+    _attr_icon: str = ICONS[19]
+    _attr_native_min_value: float = 0
+    _attr_native_max_value: float = 100
+    _attr_native_unit_of_measurement: str | None = UNITS[190]
+    _attribute_name = "ec_min_value"
+    _attr_translation_key: str = "ec_min_value"
+
+
+@CONFIG_DIAGNOSTIC_MATCH(
+    cluster_handler_names="tuya_manufacturer", quirk_ids=TUYA_POOL_SENSOR
+)
+# pylint: disable-next=hass-invalid-inheritance # needs fixing
+class ORPMaxValue(ZHANumberConfigurationEntity):
+    """Representation of a ZHA Redox Maximum Value configuration entity."""
+
+    _unique_id_suffix = "orp_max_value"
+    _attr_entity_category = EntityCategory.CONFIG
+    _attr_icon: str = ICONS[17]
+    _attr_native_min_value: float = 0
+    _attr_native_max_value: float = 1000
+    _attr_native_unit_of_measurement: str | None = UNITS[124]
+    _attribute_name = "orp_max_value"
+    _attr_translation_key: str = "orp_max_value"
+
+
+@CONFIG_DIAGNOSTIC_MATCH(
+    cluster_handler_names="tuya_manufacturer", quirk_ids=TUYA_POOL_SENSOR
+)
+# pylint: disable-next=hass-invalid-inheritance # needs fixing
+class ORPMinValue(ZHANumberConfigurationEntity):
+    """Representation of a ZHA Redox Minimum Value configuration entity."""
+
+    _unique_id_suffix = "orp_min_value"
+    _attr_entity_category = EntityCategory.CONFIG
+    _attr_icon: str = ICONS[17]
+    _attr_native_min_value: float = 0
+    _attr_native_max_value: float = 1000
+    _attr_native_unit_of_measurement: str | None = UNITS[124]
+    _attribute_name = "orp_min_value"
+    _attr_translation_key: str = "orp_min_value"
+
+
+@CONFIG_DIAGNOSTIC_MATCH(
+    cluster_handler_names="tuya_manufacturer", quirk_ids=TUYA_POOL_SENSOR
+)
+# pylint: disable-next=hass-invalid-inheritance # needs fixing
+class ChlorineMaxValue(ZHANumberConfigurationEntity):
+    """Representation of a ZHA Chlorine Concentration Maximum Value configuration entity."""
+
+    _unique_id_suffix = "cl_max_value"
+    _attr_entity_category = EntityCategory.CONFIG
+    _attr_icon: str = ICONS[20]
+    _attr_native_min_value: float = 0
+    _attr_native_max_value: float = 15
+    _attr_native_unit_of_measurement: str | None = UNITS[191]
+    _attribute_name = "cl_max_value"
+    _attr_translation_key: str = "cl_max_value"
+
+
+@CONFIG_DIAGNOSTIC_MATCH(
+    cluster_handler_names="tuya_manufacturer", quirk_ids=TUYA_POOL_SENSOR
+)
+# pylint: disable-next=hass-invalid-inheritance # needs fixing
+class ChlorineMinValue(ZHANumberConfigurationEntity):
+    """Representation of a ZHA Chlorine Concentration Maximum Value configuration entity."""
+
+    _unique_id_suffix = "cl_min_value"
+    _attr_entity_category = EntityCategory.CONFIG
+    _attr_icon: str = ICONS[20]
+    _attr_native_min_value: float = 0
+    _attr_native_max_value: float = 15
+    _attr_native_unit_of_measurement: str | None = UNITS[191]
+    _attribute_name = "cl_min_value"
+    _attr_translation_key: str = "cl_min_value"
