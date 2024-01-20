@@ -5,7 +5,11 @@ import logging
 from typing import TYPE_CHECKING, Any
 
 from zhaquirks.inovelli.types import AllLEDEffectType, SingleLEDEffectType
-from zhaquirks.quirk_ids import TUYA_PLUG_MANUFACTURER, XIAOMI_AQARA_VIBRATION_AQ1
+from zhaquirks.quirk_ids import (
+    TUYA_PLUG_MANUFACTURER,
+    XIAOMI_AQARA_VIBRATION_AQ1,
+    TUYA_POOL_SENSOR,
+)
 import zigpy.zcl
 from zigpy.zcl.clusters.closures import DoorLock
 
@@ -79,6 +83,18 @@ class TuyaClusterHandler(ClusterHandler):
             self.ZCL_INIT_ATTRS = {
                 "backlight_mode": True,
                 "power_on_state": True,
+            }
+        if endpoint.device.quirk_id == TUYA_POOL_SENSOR:
+            self.ZCL_INIT_ATTRS = {
+                "ph_min_value": True,
+                "ph_max_value": True,
+                "cl_min_value": True,
+                "cl_max_value": True,
+                "ec_min_value": True,
+                "ec_max_value": True,
+                "orp_min_value": True,
+                "orp_max_value": True,
+                "update": True,
             }
 
 
